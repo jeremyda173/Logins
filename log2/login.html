@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css"> <!-- Enlaza el archivo CSS externo -->
+    <title>LS</title>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-image">
+            <img src="/img/sc.jpeg" alt="Imagen de inicio de sesión" height="620px" width="800px">
+        </div>
+        <form class="login-form">
+            <div class="logo-container">
+                <img class="logo" src="/img/logo.png" alt="Logo">
+                <h1 class="text">School login</h1>
+            </div>
+            <div class="input-container">
+                <label for="email">Email:</label>
+                <input type="text" id="email" placeholder="Enter your email address">
+                <label for="password">Password:</label>
+                <div class="password-container">
+                    <input type="password" id="password" placeholder="Enter your password">
+                    <div class="password-toggle" onclick="togglePassword()"></div>
+                </div>
+                <div class="checkbox-forgot">
+                    <label>
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a class="forgot-link" href="#">Forgot your password?</a>
+                </div>
+            </div> 
+            <br>
+            <br>
+            <div class="button-container">
+                <input class="sing" type="submit" value="Sign in">
+                <p>Don't have an account? <a class="link" href="#">Regístrate</a></p>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
