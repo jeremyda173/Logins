@@ -1,0 +1,107 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+body {
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    background-color: #242424;
+}
+
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.login-image {
+    flex: 1; /* La imagen ocupa el 50% del ancho de la pantalla */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 50%; /* Limita el ancho de la imagen al 50% de la pantalla */
+}
+
+.login-form {
+    flex: 1; /* El formulario ocupa el 50% del ancho de la pantalla */
+    text-align: left;
+    padding: 30px;
+    background-color: rgb(255, 255, 255);
+    color: black;
+    border: 1px solid white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    width: 18%;
+    height: auto;
+    background: #f4f4f4;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-container {
+    margin-bottom: 20px; /* Agrega espacio entre los elementos de entrada y los otros elementos */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilo para "Remember me" y "Forgot your password?" en la misma línea y separados por espacio */
+.checkbox-forgot {
+    display: flex;
+    justify-content: space-between; /* Alinea "Remember me" a la izquierda y "Forgot your password?" a la derecha */
+    align-items: center; /* Centra verticalmente los elementos */
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 15px;
+    position: relative; /* Permite posicionar el icono de ojo de forma absoluta */
+}
+
+label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Estilo para "Remember me" */
+input[type="checkbox"] {
+    margin-right: 5px; /* Agrega espacio entre el cuadro de verificación y el texto "Remember me" */
+}
+
+.forgot-link {
+    color: #223390;
+    text-decoration: none;
+    font-size: 14px;
+    margin-left: auto; /* Agrega un margen izquierdo para separar "Remember me" y "Forgot your password?" */
+}
+
+/* Estilo para el botón "Sign in" */
+.sing {
+    width: 100%;
+    text-align: center;
+    padding: 15px 10px; /* Aumenta el margen superior e inferior del botón */
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    background-image: linear-gradient(#9b59b6, #c0392b);
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
