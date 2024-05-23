@@ -1,56 +1,47 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const bcrypt = require('bcryptjs');
 const mysql = require('mysql2');
-const bcrypt = require('bcrypt');
-const app = express();
-const PORT = 3000;
-const cors = require('cors');
-app.use(cors());
-app.use(express.json());
+const cors = require('cors'); // Importa el paquete cors
 
-// Creamos la conexión a MySQL
-const db = mysql.createConnection({
+
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.json());
+app.use(cors()); // Usa el middleware cors
+
+// Configurar la conexión a MySQL
+const connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: 'jeremy12345JL30',
-    database: 'UsuariosJson',
-    port: 3306,
-    ssl: null
+    password: 'jeremy12345JL30', // Cambia esto por tu contraseña de MySQL
+    database: 'UsuariosJson'
 });
 
-// Manejo de errores de conexión
-db.connect(err => {
+connection.connect((err) => {
     if (err) {
-        console.error('Error al conectar con la base de datos:', err);
+        console.error('Error conectando a la base de datos:', err);
         return;
     }
-    console.log('Conexión exitosa a la base de datos MySQL con Json.');
+    console.log('Conectado a la base de datos MySQL');
 });
 
-app.post('/guardarDatos', async (req, res) => {
-    const userData = req.body;
+// Ruta para registrar usuarios
+app.post('/register', (req, res) => {
+    const { username, password } = req.body;
+    const hashedPassword = bcrypt.hashSync(password, 8);
 
-    console.log('Datos recibidos del cliente:', userData);
-
-    // Validar datos del usuario
-    if (!userData.name || !userData.age || !userData.email || !userData.pass) {
-        return res.status(400).send('Faltan campos obligatorios');
-    }
-
-    try {
-        // Hash de la contraseña
-        const hashedPassword = await bcrypt.hash(userData.pass, 10);
-
-        // Insertar datos en la base de datos
-        const sql = 'INSERT INTO Users (nombre, edad, email, password) VALUES (?, ?, ?, ?)';
-        await db.query(sql, [userData.name, userData.age, userData.email, hashedPassword]);
-        console.log('Datos insertados en la base de datos');
-        res.send('Datos recibidos y guardados correctamente.');
-    } catch (error) {
-        console.error('Error al insertar datos en la base de datos:', error);
-        res.status(500).send('Error interno del servidor');
-    }
+    const query = 'INSERT INTO Users (username, password) VALUES (?, ?)';
+    connection.query(query, [username, hashedPassword], (err, results) => {
+        if (err) {
+            console.error('Error al registrar usuario:', err);
+            return res.status(500).json({ message: 'Error registrando usuario' });
+        }
+        res.json({ message: 'Usuario registrado exitosamente' });
+    });
 });
 
-app.listen(PORT, () => {
-    console.log(`Servidor escuchando en http://localhost:${PORT}`);
+app.listen(port, () => {
+    console.log(`Servidor escuchando en http://localhost:${port}`);
 });
