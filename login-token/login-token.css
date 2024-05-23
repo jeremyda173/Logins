@@ -1,0 +1,169 @@
+body {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    animation: backgroundAnimation 10s infinite alternate;
+}
+
+@keyframes backgroundAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+.animation-container {
+    position: relative;
+}
+
+.plane {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: auto;
+    animation: rotatePlane 4s linear infinite;
+    transform: translate(-50%, -50%); /* Ajuste para centrar el avión */
+}
+
+.custom-cursor {
+    position: absolute;
+    pointer-events: none; /* Para evitar que el cursor interfiera con los elementos */
+    z-index: 9999; /* Para asegurarse de que esté por encima de todos los elementos */
+    width: 60px; /* Ancho del cursor */
+    height: auto; /* Altura ajustada automáticamente */
+    transform: translateY(10px); /* Desplazamiento hacia abajo */}
+/* @keyframes rotatePlane {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+} */
+
+.plane {
+    display: none; /* Ocultamos el avión por defecto */
+}
+
+
+.login-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    width: 400px;
+    text-align: center;
+    animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.5s forwards;
+}
+
+h2 {
+    margin-bottom: 30px;
+    color: #fff;
+    font-size: 36px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    animation: slideInLeft 1s ease-out 1s forwards, colorChange 2s ease-out 1s forwards;
+}
+
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes colorChange {
+    0% {
+        color: #fff;
+    }
+    50% {
+        color: #ff4b2b;
+    }
+    100% {
+        color: #fff;
+    }
+}
+
+.form-group {
+    margin-bottom: 30px;
+    opacity: 0;
+    animation: slideInRight 1s ease-out 1.5s forwards;
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 30px);
+    padding: 15px;
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #333;
+    font-size: 18px;
+    outline: none;
+    transition: background-color 0.3s ease;
+    opacity: 0;
+    animation: slideInLeft 1s ease-out 2s forwards;
+}
+
+input::placeholder {
+    color: #666;
+}
+
+button {
+    background-color: #ff4b2b;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 18px;
+    outline: none;
+    transition: background-color 0.3s;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out 2.5s forwards, moveUp 0.5s ease-out 2.5s forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes moveUp {
+    0% {
+        transform: translateY(20px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+button:hover {
+    background-color: #ff416c;
+}

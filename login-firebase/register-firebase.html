@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro con Firebase Auth</title>
+    <link rel="stylesheet" href="./login-firebase.css">
+</head>
+
+<body>
+    <div class="container" id="registrationContainer">
+        <h1>🚀 Registro 🚀</h1>
+        <form id="registrationForm">
+            <input type="email" id="email" placeholder="📧 Correo electrónico" required>
+            <input type="password" id="password" placeholder="🔑 Contraseña" required>
+            <button type="submit">✨ Registrarse ✨</button>
+        </form>
+        <div class="footer">
+            <p>¿Ya tienes una cuenta? <a href="./login-firebase.html">Inicia sesión aquí</a></p>
+        </div>
+    </div>
+
+    <!-- Importa las bibliotecas del SDK de Firebase -->
+    <script type="module">
+        // Importar las funciones necesarias del SDK de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        // Configuración de tu aplicación Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCf6PHB7SUtco1_oCf70YWVyOv-xWtFQP4",
+            authDomain: "login-prueba-d85d4.firebaseapp.com",
+            projectId: "login-prueba-d85d4",
+            storageBucket: "login-prueba-d85d4.appspot.com",
+            messagingSenderId: "213464314843",
+            appId: "1:213464314843:web:def81e383d32183ef6edfe",
+            measurementId: "G-S7YNBY2Q6T"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const firestore = getFirestore(app); // Pasa la instancia de app a getFirestore
+
+        // Manejar el envío del formulario de registro
+        document.getElementById("registrationForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevenir la recarga de la página
+
+            // Obtener los valores del formulario
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            // Registrar nuevo usuario en Firebase Auth
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Éxito: Usuario registrado
+                    const user = userCredential.user;
+                    console.log("Usuario registrado:", user);
+
+                    // Guardar datos del usuario en Cloud Firestore
+                    firestore.collection("usuarios").doc(user.uid).set({
+                        email: user.email
+                        // Otros campos que desees guardar
+                    })
+                    .then(() => {
+                        console.log("Datos del usuario guardados en Firestore");
+                        // Mostrar modal de registro exitoso
+                        mostrarModal("Registro exitoso");
+                    })
+                    .catch((error) => {
+                        console.error("Error al guardar datos del usuario en Firestore:", error);
+                        // Manejar el error aquí
+                    });
+                })
+                .catch((error) => {
+                    // Error: Mostrar mensaje de error al usuario
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.error("Error de registro:", errorMessage);
+                    // Aquí puedes mostrar un mensaje de error al usuario usando el modal o cualquier otro método
+                });
+        });
+    </script>
+</body>
+
+</html>

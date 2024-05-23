@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login-token.css">
+</head>
+
+<body>
+    <div class="animation-container">
+        <div class="login-container">
+            <h2>Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <input type="text" id="username" name="username" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit">Login <span class="emoji">🚀</span></button>
+            </form>
+            <p id="error-message" class="error-message"></p>
+        </div>
+    </div>
+    <img src="/public/Plane.png" class="custom-cursor" style="display: none;"> <!-- Imagen del avión como cursor -->
+    <script src="/login-token/login-token.js"></script>
+</body>
+
+</html>
