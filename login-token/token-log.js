@@ -18,6 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('token', token);
 
         // Redirigir a otra página
-        window.location.href = 'perfil.html';
+        // window.location.href = 'perfil.html';
     });
 });
