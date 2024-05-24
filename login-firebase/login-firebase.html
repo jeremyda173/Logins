@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Incluye las bibliotecas de Firebase -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js"></script> -->
+    <link rel="stylesheet" href="./login-firebase.css">
+    <title>Iniciar Sesión con Firebase Auth</title>
+</head>
+
+<body>
+    <div class="stars"></div>
+    <div class="container" id="loginContainer">
+        <h1>🚀 Iniciar Sesión 🚀</h1>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="📧 Correo electrónico" required>
+            <input type="password" id="password" placeholder="🔑 Contraseña" required>
+            <button type="submit">✨ Iniciar Sesión ✨</button>
+        </form>
+        <div class="footer">
+            <p>¿No tienes una cuenta? <a href="./register-firebase.html">Regístrate aquí</a></p>
+        </div>
+    </div>
+    <!-- Modal -->
+    <!-- <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="modalMessage"></p>
+        </div>
+    </div> -->
+    <!-- Luego, carga tu archivo JavaScript -->
+    <!-- Configuración del SDK de Firebase -->
+    <script type="module">
+        // Importar las funciones necesarias del SDK de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+        // Configuración de tu aplicación Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCf6PHB7SUtco1_oCf70YWVyOv-xWtFQP4",
+            authDomain: "login-prueba-d85d4.firebaseapp.com",
+            projectId: "login-prueba-d85d4",
+            storageBucket: "login-prueba-d85d4.appspot.com",
+            messagingSenderId: "213464314843",
+            appId: "1:213464314843:web:7eebafd539a10051f6edfe",
+            measurementId: "G-JEETMHSHX5"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        // Manejar el envío del formulario
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevenir la recarga de la página
+
+            // Obtener los valores del formulario
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            // Iniciar sesión con Firebase Auth
+            const auth = getAuth();
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Éxito: Usuario autenticado
+                    const user = userCredential.user;
+                    console.log("Usuario autenticado:", user);
+                    // Aquí puedes redirigir al usuario a otra página o mostrar un mensaje de éxito
+                })
+                .catch((error) => {
+                    // Error: Mostrar mensaje de error al usuario
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.error("Error de autenticación:", errorMessage);
+                    // Aquí puedes mostrar un mensaje de error al usuario usando el modal o cualquier otro método
+                });
+        });
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Éxito: Usuario autenticado
+                const user = userCredential.user;
+                console.log("Usuario autenticado:", user);
+
+                // Obtener una referencia a la colección "usuarios"
+                const usuariosRef = firebase.firestore().collection("usuarios");
+
+                // Verificar si el usuario ya existe en la colección
+                usuariosRef.doc(user.uid).get()
+                    .then((doc) => {
+                        if (doc.exists) {
+                            console.log("El usuario ya existe en la colección");
+                            // Aquí puedes actualizar los datos del usuario si es necesario
+                        } else {
+                            console.log("El usuario no existe en la colección. Guardando datos...");
+
+                            // Guardar datos del usuario en la colección
+                            usuariosRef.doc(user.uid).set({
+                                email: user.email,
+                                // Otros campos que desees guardar
+                            })
+                                .then(() => {
+                                    console.log("Datos guardados en Firestore");
+                                    // Aquí puedes redirigir al usuario a otra página o mostrar un mensaje de éxito
+                                })
+                                .catch((error) => {
+                                    console.error("Error al guardar datos en Firestore:", error);
+                                    // Manejar el error aquí
+                                });
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error al verificar la existencia del usuario:", error);
+                        // Manejar el error aquí
+                    });
+            })
+            .catch((error) => {
+                // Error: Mostrar mensaje de error al usuario
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.error("Error de autenticación:", errorMessage);
+                // Aquí puedes mostrar un mensaje de error al usuario usando el modal o cualquier otro método
+            });
+
+    </script>
+    <!-- <script src="./login-firebase.js"></script> -->
+</body>
+
+</html>
