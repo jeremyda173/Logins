@@ -1,47 +1,32 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const bcrypt = require('bcryptjs');
-const mysql = require('mysql2');
-const cors = require('cors'); // Importa el paquete cors
+const mysql = require('mysql');
 
-
-const app = express();
-const port = 3000;
-
-app.use(bodyParser.json());
-app.use(cors()); // Usa el middleware cors
-
-// Configurar la conexión a MySQL
+// Configuración de la conexión
 const connection = mysql.createConnection({
     host: '127.0.0.1',
+    port: '3306',
     user: 'root',
-    password: 'jeremy12345JL30', // Cambia esto por tu contraseña de MySQL
+    password: 'jeremy12345JL30',
     database: 'UsuariosJson'
 });
 
+// Establecer la conexión
 connection.connect((err) => {
     if (err) {
-        console.error('Error conectando a la base de datos:', err);
+        console.error('Error al conectar a la base de datos:', err);
         return;
     }
-    console.log('Conectado a la base de datos MySQL');
-});
+    console.log('Conexión a la base de datos establecida');
 
-// Ruta para registrar usuarios
-app.post('/register', (req, res) => {
-    const { username, password } = req.body;
-    const hashedPassword = bcrypt.hashSync(password, 8);
-
-    const query = 'INSERT INTO Users (username, password) VALUES (?, ?)';
-    connection.query(query, [username, hashedPassword], (err, results) => {
-        if (err) {
-            console.error('Error al registrar usuario:', err);
-            return res.status(500).json({ message: 'Error registrando usuario' });
+    // Ejemplo de consulta
+    connection.query('SELECT * FROM usuarios', (error, results, fields) => {
+        if (error) {
+            console.error('Error al realizar la consulta:', error);
+            return;
         }
-        res.json({ message: 'Usuario registrado exitosamente' });
-    });
-});
+        console.log('Resultados de la consulta:', results);
 
-app.listen(port, () => {
-    console.log(`Servidor escuchando en http://localhost:${port}`);
+        // Cerrar la conexión cuando ya no sea necesaria
+        connection.end();
+        console.log('Conexión cerrada');
+    });
 });
